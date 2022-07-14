@@ -1,7 +1,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{% url 'auth:dashboard' %}">
           <i class="icon-grid menu-icon"></i>
           <span class="menu-title">Dashboard</span>
         </a>
@@ -15,8 +15,8 @@
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Create</a></li>
-            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Manage</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'auth:create_admin' %}">Create</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'auth:manage_admin' %}">Manage</a></li>
           </ul>
         </div>
       </li>
@@ -77,6 +77,6 @@
           <span class="menu-title">Logout</span>
         </a>
       </li>
-      
+
     </ul>
 </nav>

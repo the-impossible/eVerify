@@ -1,6 +1,7 @@
 # My Django imports
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+import uuid
 
 # My app imports
 
@@ -77,6 +78,7 @@ class Accounts(AbstractBaseUser, PermissionsMixin):
     firstname = models.CharField(max_length=20, db_index=True)
     lastname = models.CharField(max_length=20, db_index=True)
     phone = models.CharField(max_length=14, db_index=True, unique=True, blank=True)
+    acct_id = models.SlugField(default=uuid.uuid4(), primary_key=True, unique=True, editable=False)
     gender = models.CharField(max_length=8, choices=gender, blank=True, null=True)
     picture = models.ImageField(default='user.png', upload_to='uploads/', null=True)
 
