@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('dev/', admin.site.urls),
     path('', include('e_verify_app.urls', namespace='e_verify')),
+    path('auth/', include('e_verify_auth.urls', namespace='auth')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
