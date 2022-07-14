@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'e_verify_auth',
+    'e_verify_app',
     'crispy_forms',
 ]
 
