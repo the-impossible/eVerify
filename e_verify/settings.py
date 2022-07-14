@@ -58,6 +58,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'e_verify.urls'
+AUTH_USER_MODEL = 'e_verify_auth.Accounts'
 
 TEMPLATES = [
     {
