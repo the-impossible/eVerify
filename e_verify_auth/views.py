@@ -9,7 +9,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 # My App imports
 from e_verify_auth.models import Accounts
-from e_verify_auth.forms import AccountCreationForm
+from e_verify_auth.forms import AccountCreationForm, OrganizationForm
 
 # Create your views here.
 class DashboardView(View):
@@ -73,3 +73,16 @@ class LogoutView(View):
         messages.success(request, 'You are successfully logout, to continue login again')
 
         return redirect('auth:login')
+
+class RegisterView(SuccessMessageMixin, CreateView):
+    model = Accounts
+    form_class = OrganizationForm
+    template_name = 'auth/register.html'
+    success_message = "Account created successfully! You can now login!"
+
+    def get_success_url(self):
+        return reverse("auth:login")
+
+    def form_valid(self, form):
+        form.instance.set_password(form.instance.password)
+        return super().form_valid(form)

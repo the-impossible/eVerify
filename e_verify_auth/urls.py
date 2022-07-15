@@ -8,6 +8,7 @@ from e_verify_auth.views import (
     # AUTHENTICATE
     LoginView,
     LogoutView,
+    RegisterView,
 
     # ADMIN
     CreateAdminView,
@@ -21,6 +22,7 @@ urlpatterns = [
     # AUTHENTICATE
     path('login', LoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),
+    path('register', RegisterView.as_view(), name='register'),
     # ADMIN
     path('create_admin', CreateAdminView.as_view(), name='create_admin'),
     path('manage_admin', ManageAdminView.as_view(), name='manage_admin'),

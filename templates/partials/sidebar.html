@@ -72,11 +72,19 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="pages/documentation/documentation.html">
+        <!-- <a class="nav-link" href="pages/documentation/documentation.html">
           <i class="icon-paper menu-icon"></i>
           <span class="menu-title">Logout</span>
-        </a>
+        </a> -->
+        <form action="{% url 'auth:logout' %}" method="post" id="form">
+          {% csrf_token %}
+          <a class="nav-link" style="cursor: pointer;" onclick="form.submit()">
+            <i class="icon-paper menu-icon"></i>
+            Logout
+          </a>
+        </form>
       </li>
+
 
     </ul>
 </nav>
