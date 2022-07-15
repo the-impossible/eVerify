@@ -35,7 +35,7 @@ class CreateAdminView(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.set_password(form.instance.password)
-        # form.instance.password = set_password(form.instance.password)
+        form.instance.is_staff = True
         return super().form_valid(form)
 
 class ManageAdminView(ListView):

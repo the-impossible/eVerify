@@ -80,7 +80,7 @@ class Accounts(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=14, db_index=True, unique=True, blank=True)
     acct_id = models.SlugField(default=uuid.uuid4(), primary_key=True, unique=True, editable=False)
     gender = models.CharField(max_length=8, choices=gender, blank=True, null=True)
-    picture = models.ImageField(default='user.png', upload_to='uploads/', null=True)
+    picture = models.ImageField(default='user.png', upload_to='uploads', null=True)
 
     date_joined = models.DateTimeField(verbose_name='date_joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last_login', auto_now=True, null=True)
