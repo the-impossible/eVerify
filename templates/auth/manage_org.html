@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} Manage Admin{% endblock %}
+{% block title %} Manage Organization{% endblock %}
 {% block head %}
   {% include "partials/auth_head.html" %}
 {% endblock %}
@@ -13,11 +13,11 @@
     <div class="main-panel">
       <div class="content-wrapper">
         <div class="row">
-          {% include "partials/messages.html" %}
           <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
+              {% include "partials/messages.html" %}
               <div class="card-body">
-                <h4 class="card-title">Manage Kadpoly e-Verify Admin</h4>
+                <h4 class="card-title">Manage Kadpoly e-Verify Organization Users</h4>
                 <p class="card-description">
                   use the table to edit, view and delete
                 </p>
@@ -28,8 +28,7 @@
                       <tr>
                         <th>#</th>
                         <th>User</th>
-                        <th>First name</th>
-                        <th>Last name</th>
+                        <th>Company name</th>
                         <th>Phone</th>
                         <th>Email</th>
                         <th>Action</th>
@@ -40,8 +39,7 @@
                       <tr>
                         <td><b>{{ forloop.counter }}</b></td>
                         <td class="py-1"> <img src="{% if user.picture.url != '' %} {{ user.picture.url }} {% else %} {% static 'img/user.png' %} {% endif %}" alt="image"/></td>
-                        <td>{{ user.firstname }}</td>
-                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.organization }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.email }}</td>
                         <td><a href="" class="btn btn-outline-danger btn-sm">Delete <i class="fa fa-trash"></i></a></td>
@@ -53,8 +51,8 @@
                 {% else %}
                 <div class="row">
                   <div class="mx-auto mt-5">
-                    <p class="lead text-center">No Admin Record</p>
-                    <a href="{% url 'auth:create_admin' %}" class="btn btn-outline-success btn-sm mt-3 ml-4">Create Admin</a>
+                    <p class="lead text-center">No User Record</p>
+                    <a href="{% url 'auth:create_org' %}" class="btn btn-outline-success btn-sm mt-3 ml-4">Create Users</a>
                   </div>
                 </div>
                 {% endif %}

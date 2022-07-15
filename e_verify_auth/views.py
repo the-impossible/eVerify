@@ -86,3 +86,15 @@ class RegisterView(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         form.instance.set_password(form.instance.password)
         return super().form_valid(form)
+
+class CreateOrgView(RegisterView):
+    template_name = 'auth/create_org.html'
+
+    def get_success_url(self):
+        return reverse("auth:manage_org")
+
+class ManageOrgUserView(ManageAdminView):
+    template_name = "auth/manage_org.html"
+
+    def get_queryset(self):
+        return Accounts.objects.filter(is_staff=False).order_by('-date_joined')
