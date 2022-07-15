@@ -11,3 +11,10 @@
 <script src="{% static 'auth/js/todolist.js' %}"></script>
 <script src="{% static 'auth/js/dashboard.js' %}"></script>
 <script src="{% static 'auth/js/Chart.roundedBarCharts.js' %}"></script>
+<script>
+    window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 2000);
+</script>
