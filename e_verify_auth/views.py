@@ -1,7 +1,9 @@
 # My Django imports
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib.auth import authenticate, login, logout
 from datetime import date
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -20,6 +22,29 @@ class DashboardView(View):
 class LoginView(View):
     def get(self, request):
         return render(request, 'auth/login.html')
+
+    def post(self, request):
+        email = request.POST.get('email').strip().lower()
+        password = request.POST.get('password').strip().lower()
+
+        if email and password:
+            # Authenticate user
+            user = authenticate(request, email=email, password=password)
+
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    messages.success(request, f'You are now signed in {user}')
+                    return redirect('auth:dashboard')
+                else:
+                    messages.warning(request, 'Account not active contact the administrator')
+                    return redirect('auth:login')
+            else:
+                messages.warning(request, 'Invalid login credentials')
+                return redirect('auth:login')
+        else:
+            messages.error(request, 'All fields are required!!')
+            return redirect('auth:login')
 
 class CreateAdminView(SuccessMessageMixin, CreateView):
     model = Accounts
