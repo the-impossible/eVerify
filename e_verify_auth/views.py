@@ -98,3 +98,10 @@ class ManageOrgUserView(ManageAdminView):
 
     def get_queryset(self):
         return Accounts.objects.filter(is_staff=False).order_by('-date_joined')
+
+class DeleteUserView(SuccessMessageMixin, DeleteView):
+    model = Accounts
+    success_message = "Account deleted successfully!"
+
+    def get_success_url(self):
+        return reverse("auth:manage_admin")

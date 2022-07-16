@@ -44,7 +44,28 @@
                         <td>{{ user.lastname }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.email }}</td>
-                        <td><a href="" class="btn btn-outline-danger btn-sm">Delete <i class="fa fa-trash"></i></a></td>
+                        <td>
+                          <a href="" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#delete{{ user.acct_id}}">Delete <i class="fa fa-trash"></i></a>
+                          <div class="modal fade" id="delete{{ user.acct_id}}" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Delete....are you sure?</h5>
+                                        <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">Select "Delete" below if you want to delete user: <b> {{ user.firstname }} {{ user.lastname }}</b>.</div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                        <form action="{% url 'auth:delete_admin' user.acct_id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-warning btn-block">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       {% endfor %}
                     </tbody>

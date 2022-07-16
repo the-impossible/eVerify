@@ -13,6 +13,7 @@ from e_verify_auth.views import (
     # ADMIN
     CreateAdminView,
     ManageAdminView,
+    DeleteUserView,
 
     # ORG
     CreateOrgView,
@@ -30,6 +31,7 @@ urlpatterns = [
     # ADMIN
     path('create_admin', CreateAdminView.as_view(), name='create_admin'),
     path('manage_admin', ManageAdminView.as_view(), name='manage_admin'),
+    path('delete_admin/<pk>', DeleteUserView.as_view(), name='delete_admin'),
     # ORG
     path('create_org', CreateOrgView.as_view(), name='create_org'),
     path('manage_org', ManageOrgUserView.as_view(), name='manage_org'),
