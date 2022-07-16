@@ -133,19 +133,53 @@ class ProfileView(SuccessMessageMixin, View):
     def post(self, request, pk):
         try:
             user = Accounts.objects.get(pk=pk)
-            if user.is_staff:
-                form = AccountUpdateForm(request.POST, request.FILES, instance=user)
-            else:
-                form = OrganizationUpdateForm(request.POST, request.FILES, instance=user)
-            print('FORM: ', form.errors)
-            print(user.email)
-            if form.is_valid() :
-                form.save()
-                messages.success(request, 'Profile updated successfully!')
-                return redirect('auth:profile', pk)
+            if 'password' in request.POST:
+                password1 = request.POST.get('password1')
+                password2 = request.POST.get('password2')
 
-            messages.error(request, 'your response contains invalid data!')
-            return render(request, 'auth/profile.html', {'form':form, 'user':user})
+                if user.is_staff:
+                    context = {
+                    'form': AccountUpdateForm(instance=user),
+                    'user': user,
+                }
+                else:
+                    context = {
+                        'form': OrganizationUpdateForm(instance=user),
+                        'user': user,
+                    }
+
+                if password1 and password2:
+                    if password1 != password2:
+                        messages.error(request, 'Passwords does not match!')
+                        return redirect('auth:profile', pk)
+
+                    if len(password1) < 6 :
+                        messages.error(request, 'Password too short, ensure at least 6 characters!')
+                        return redirect('auth:profile', pk)
+
+                    user.set_password(password1)
+                    user.save()
+
+                    messages.success(request, 'Password reset successful!!')
+                    if request.user == user:
+                        return redirect('auth:login')
+
+                    if request.user.is_superuser:
+                        return redirect('auth:profile', pk)
+                    return redirect('auth:login')
+            else:
+                if user.is_staff:
+                    form = AccountUpdateForm(request.POST, request.FILES, instance=user)
+                else:
+                    form = OrganizationUpdateForm(request.POST, request.FILES, instance=user)
+
+                if form.is_valid() :
+                    form.save()
+                    messages.success(request, 'Profile updated successfully!')
+                    return redirect('auth:profile', pk)
+
+                messages.error(request, 'your response contains invalid data!')
+                return render(request, 'auth/profile.html', {'form':form, 'user':user})
         except ObjectDoesNotExist:
             messages.error(request, 'User account not found!')
             return redirect('auth:dashboard')
