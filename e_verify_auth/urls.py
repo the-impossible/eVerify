@@ -4,6 +4,7 @@ from django.urls import path
 # My App imports
 from e_verify_auth.views import (
     DashboardView,
+    ProfileView,
 
     # AUTHENTICATE
     LoginView,
@@ -25,6 +26,7 @@ app_name = 'auth'
 
 urlpatterns = [
     path('dashboard', DashboardView.as_view(), name='dashboard'),
+    path('profile/<pk>', ProfileView.as_view(), name='profile'),
     # AUTHENTICATE
     path('login', LoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),

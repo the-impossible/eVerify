@@ -74,7 +74,7 @@ class Accounts(AbstractBaseUser, PermissionsMixin):
         ('Male', 'Male'),
         ('Female', 'Female')
     )
-    email = models.CharField(max_length=100, db_index=True, unique=True, verbose_name='email address', blank=True)
+    email = models.CharField(max_length=100, db_index=True, unique=True, verbose_name='email address')
     organization = models.CharField(max_length=100, db_index=True, blank=True, null=True)
     firstname = models.CharField(max_length=20, db_index=True, blank=True)
     lastname = models.CharField(max_length=20, db_index=True, blank=True)

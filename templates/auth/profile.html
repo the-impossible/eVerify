@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Profile{% endblock %}
+{% block head %}
+  {% include "partials/auth_head.html" %}
+{% endblock %}
+{% block body %}
+<div class="container-scroller">
+  {% include "partials/login_nav.html" %}
+  <div class="container-fluid page-body-wrapper">
+    {% include "partials/skins.html" %}
+    {% include "partials/sidebar.html" %}
+    <div class="main-panel">
+      <div class="content-wrapper">
+        {% include "partials/messages.html" %}
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Profile Information</h4>
+                  <img src="{{ request.user.picture.url }} " width="200" class="rounded mx-auto d-block" alt="...">
+                  <h4 class="text-center mt-3">--- Other Information ---</h4>
+                  <div class="card bg-light">
+                    <div class="card-body">
+                      {% if user.is_staff %}
+                      <p><b>Firstname:</b> {{ user.firstname }}</p>
+                      <p><b>Lastname:</b> {{ user.lastname }}</p>
+                      <p><b>Gender:</b> {{ user.gender }}</p>
+                      {% else %}
+                      <p><b>Organization:</b> {{ user.organization }}</p>
+                      {% endif %}
+                      <p><b>Email:</b> {{ user.email }}</p>
+                      <p><b>Phone:</b> {{ user.phone }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Edit Profile</h4>
+                  <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if user.is_staff %}
+                    <div class="form-row">
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.firstname|as_crispy_field }}
+                      </div>
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.lastname|as_crispy_field }}
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.email|as_crispy_field }}
+                      </div>
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.phone|as_crispy_field }}
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.picture|as_crispy_field }}
+                      </div>
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.gender|as_crispy_field }}
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="form-row">
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.organization|as_crispy_field }}
+                      </div>
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.email|as_crispy_field }}
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.phone|as_crispy_field }}
+                      </div>
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.picture|as_crispy_field }}
+                      </div>
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary mr-2">Update</button>
+                  </form>
+                </div>
+              </div>
+              <div class="card mt-5">
+                <div class="card-body">
+                  <h4 class="card-title">Change Password</h4>
+                  <form method="post">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                      <label class="col-12 col-form-label" for="basic-icon-default-fullname">Password</label>
+                      <div class="col-12">
+                      <input class="form-control" type="password" name="password1">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="col-12 col-form-label" for="basic-icon-default-company">Re-Enter Password</label>
+                      <div class="col-12">
+                      <input class="form-control" type="password" name="password2">
+                      </div>
+                    </div>
+                    <button class="btn btn-outline-primary btn-block" type="submit" name="password">Update Password</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      {% include "partials/login_footer.html" %}
+    </div>
+  </div>
+</div>
+{% include "partials/auth_script.html" %}
+{% endblock %}

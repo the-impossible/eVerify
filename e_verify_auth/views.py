@@ -5,11 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from datetime import date
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 # My App imports
 from e_verify_auth.models import Accounts
-from e_verify_auth.forms import AccountCreationForm, OrganizationForm
+from e_verify_auth.forms import AccountCreationForm, OrganizationForm, AccountUpdateForm, OrganizationUpdateForm
 
 # Create your views here.
 class DashboardView(View):
@@ -109,3 +110,42 @@ class DeleteUserView(SuccessMessageMixin, DeleteView):
 class DeleteOrgView(DeleteUserView):
     def get_success_url(self):
         return reverse("auth:manage_org")
+
+class ProfileView(SuccessMessageMixin, View):
+    def get(self, request, pk):
+        try:
+            user = Accounts.objects.get(pk=pk)
+            if user.is_staff:
+                context = {
+                    'form': AccountUpdateForm(instance=user),
+                    'user': user,
+                }
+            else:
+                context = {
+                    'form': OrganizationUpdateForm(instance=user),
+                    'user': user,
+                }
+            return render(request, 'auth/profile.html', context)
+        except ObjectDoesNotExist:
+            messages.error(request, 'User account not found!')
+            return redirect('auth:dashboard')
+
+    def post(self, request, pk):
+        try:
+            user = Accounts.objects.get(pk=pk)
+            if user.is_staff:
+                form = AccountUpdateForm(request.POST, request.FILES, instance=user)
+            else:
+                form = OrganizationUpdateForm(request.POST, request.FILES, instance=user)
+            print('FORM: ', form.errors)
+            print(user.email)
+            if form.is_valid() :
+                form.save()
+                messages.success(request, 'Profile updated successfully!')
+                return redirect('auth:profile', pk)
+
+            messages.error(request, 'your response contains invalid data!')
+            return render(request, 'auth/profile.html', {'form':form, 'user':user})
+        except ObjectDoesNotExist:
+            messages.error(request, 'User account not found!')
+            return redirect('auth:dashboard')

@@ -131,3 +131,40 @@ class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Accounts
         fields = ('organization', 'email', 'phone', 'password', 'picture')
+
+class AccountUpdateForm(AccountCreationForm):
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        check = Accounts.objects.filter(email=email)
+        if self.instance:
+            check = check.exclude(pk=self.instance.pk)
+        if check.exists():
+            raise forms.ValidationError('Email Already taken!')
+        return email
+    class Meta:
+        model = Accounts
+        fields = ('firstname', 'lastname', 'email', 'phone', 'picture', 'gender')
+
+    def __init__(self, *args, **kwargs):
+        super(AccountCreationForm, self).__init__(*args, **kwargs)
+        del self.fields['password']
+
+class OrganizationUpdateForm(OrganizationForm):
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        check = Accounts.objects.filter(email=email)
+        if self.instance:
+            check = check.exclude(pk=self.instance.pk)
+        if check.exists():
+            raise forms.ValidationError('Email Already taken!')
+
+        return email
+    class Meta(OrganizationForm):
+        model = Accounts
+        fields = ('organization', 'email', 'phone', 'picture')
+
+    def __init__(self, *args, **kwargs):
+        super(OrganizationForm, self).__init__(*args, **kwargs)
+        del self.fields['password']
