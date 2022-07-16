@@ -105,3 +105,7 @@ class DeleteUserView(SuccessMessageMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("auth:manage_admin")
+
+class DeleteOrgView(DeleteUserView):
+    def get_success_url(self):
+        return reverse("auth:manage_org")
