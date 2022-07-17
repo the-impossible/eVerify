@@ -26,3 +26,7 @@ urlpatterns = [
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+admin.site.site_header = "Kadpoly e-Verify Admin"
+admin.site.site_title = "Kadpoly e-Verify Portal"
+admin.site.index_title = "Welcome to Kadpoly e-Verify Portal"
