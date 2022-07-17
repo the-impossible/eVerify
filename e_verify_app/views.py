@@ -8,8 +8,3 @@ from django.views import View
 class HomeView(View):
     def get(self, request):
         return render(request, 'e_verify/index.html')
-
-
-class ResultView(View):
-    def get(self, request):
-        return render(request, 'auth/result.html')

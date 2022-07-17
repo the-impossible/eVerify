@@ -10,7 +10,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 # My App imports
 from e_verify_auth.models import Accounts
-from e_verify_auth.forms import AccountCreationForm, OrganizationForm, AccountUpdateForm, OrganizationUpdateForm
+from e_verify_app.models import ResultInformation
+from e_verify_auth.forms import AccountCreationForm, OrganizationForm, AccountUpdateForm, OrganizationUpdateForm, ResultForm
 
 # Create your views here.
 class DashboardView(View):
@@ -183,3 +184,22 @@ class ProfileView(SuccessMessageMixin, View):
         except ObjectDoesNotExist:
             messages.error(request, 'User account not found!')
             return redirect('auth:dashboard')
+
+class ResultView(SuccessMessageMixin, CreateView):
+    model = ResultInformation
+    form_class = ResultForm
+    template_name = 'auth/upload_result.html'
+    success_message = "Result Information uploaded!"
+
+    def get_success_url(self):
+        return reverse("auth:manage_result")
+
+    # def form_valid(self, form):
+    #     form.instance.set_password(form.instance.password)
+    #     return super().form_valid(form)
+
+class ManageResultView(ManageAdminView):
+    template_name = "auth/manage_result.html"
+
+    def get_queryset(self):
+        return ResultInformation.objects.all().order_by('-date')

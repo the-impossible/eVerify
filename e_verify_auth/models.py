@@ -79,7 +79,7 @@ class Accounts(AbstractBaseUser, PermissionsMixin):
     firstname = models.CharField(max_length=20, db_index=True, blank=True)
     lastname = models.CharField(max_length=20, db_index=True, blank=True)
     phone = models.CharField(max_length=14, db_index=True, unique=True, blank=True)
-    acct_id = models.SlugField(default=uuid.uuid4(), primary_key=True, unique=True, editable=False)
+    acct_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, unique=True, editable=False)
     gender = models.CharField(max_length=8, choices=gender, blank=True, null=True)
     picture = models.ImageField(default='uploads/user.png', upload_to='uploads', null=True)
 
