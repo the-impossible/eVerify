@@ -219,3 +219,10 @@ class ResultEditForm(View):
             return HttpResponse(status=204, headers={'Hx-Trigger':'listChanged'})
         messages.error(request, f'{form.errors.as_text()}')
         return HttpResponse(status=204, headers={'Hx-Trigger':'listChanged'})
+
+class DeleteResultView(SuccessMessageMixin, DeleteView):
+    model = ResultInformation
+    success_message = "Result deleted successfully!"
+
+    def get_success_url(self):
+        return reverse("auth:manage_result")

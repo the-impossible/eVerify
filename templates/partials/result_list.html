@@ -37,7 +37,7 @@
                                 <div class="modal-body">Select "Delete" below if you want to delete <br> <b> {{ result.fullname }} result</b>.</div>
                                 <div class="modal-footer">
                                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                    <form action="" method="POST">
+                                    <form action="{% url 'auth:delete_result' result.pk %}" method="POST">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-warning btn-block">Delete</button>
                                     </form>
