@@ -19,6 +19,9 @@ class DashboardView(View):
     def get(self, request):
         context = {
             'time':date.today().strftime("%Y-%m-%d"),
+            'admin':Accounts.objects.all().count(),
+            'clients':Accounts.objects.filter(is_staff=False).count(),
+            'cert': ResultInformation.objects.all().count(),
         }
         return render(request, 'auth/dashboard.html', context)
 

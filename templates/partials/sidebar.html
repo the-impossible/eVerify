@@ -7,6 +7,7 @@
         </a>
       </li>
 
+      {% if request.user.is_staff %}
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
           <i class="icon-columns menu-icon"></i>
@@ -21,19 +22,6 @@
         </div>
       </li>
 
-      <!-- <li class="nav-item">
-        <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-          <i class="icon-contract menu-icon"></i>
-          <span class="menu-title">Payments</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="form-elements">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">View</a></li>
-          </ul>
-        </div>
-      </li> -->
-
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#form-elementss" aria-expanded="false" aria-controls="form-elements">
           <i class="icon-bar-graph menu-icon"></i>
@@ -47,6 +35,7 @@
           </ul>
         </div>
       </li>
+      {% endif %}
 
       <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#form-elementssss" aria-expanded="false" aria-controls="form-elements">
@@ -56,8 +45,10 @@
         </a>
         <div class="collapse" id="form-elementssss">
           <ul class="nav flex-column sub-menu">
+            {% if request.user.is_staff %}
             <li class="nav-item"><a class="nav-link" href="{% url 'auth:upload_result' %}">Upload</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'auth:manage_result' %}">Manage</a></li>
+            {% endif %}
             <li class="nav-item"><a class="nav-link" href="{% url 'auth:verify_result' %}">Verify</a></li>
           </ul>
         </div>
