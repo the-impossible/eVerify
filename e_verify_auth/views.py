@@ -226,3 +226,17 @@ class DeleteResultView(SuccessMessageMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("auth:manage_result")
+
+class VerifyResult(View):
+    def get(self, request):
+        return render(request, 'auth/verify_result.html')
+
+    def post(self, request):
+        qs =  request.POST.get('search')
+        result = ResultInformation.objects.filter(cert_no=qs)
+
+        if result:
+            return render(request, 'partials/result_content.html', context={'result':result[0]})
+        else:
+            messages.error(request, 'Result not found! try inputting a valid cert_no')
+        return render(request, 'partials/result_empty.html')

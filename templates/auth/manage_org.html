@@ -38,7 +38,10 @@
                       {% for user in object_list  %}
                       <tr>
                         <td><b>{{ forloop.counter }}</b></td>
-                        <td class="py-1"> <img src="{% if user.picture.url != '' %} {{ user.picture.url }} {% else %} {% static 'img/user.png' %} {% endif %}" alt="image"/></td>
+                        <td class="py-1"> <a href="{% url 'auth:profile' user.pk %}">
+                          <img src="{% if user.picture.url != '' %} {{ user.picture.url }} {% else %} {% static 'img/user.png' %} {% endif %}" alt="image"/>
+                        </a>
+                      </td>
                         <td>{{ user.organization }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.email }}</td>

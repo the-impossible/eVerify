@@ -27,6 +27,9 @@ from e_verify_auth.views import (
     ManageResultView,
     ResultEditForm,
     DeleteResultView,
+
+    # VERIFY
+    VerifyResult,
 )
 
 app_name = 'auth'
@@ -52,4 +55,6 @@ urlpatterns = [
     path('list_result', ListResultView.as_view(), name='list_result'),
     path('result_form/<pk>', ResultEditForm.as_view(), name='result_form'),
     path('delete_result/<pk>', DeleteResultView.as_view(), name='delete_result'),
+    # VERIFY
+    path('verify_result', VerifyResult.as_view(), name='verify_result'),
 ]

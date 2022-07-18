@@ -1,0 +1,29 @@
+{% load static %}
+<div class="card-body">
+    <div class="text-center">
+        <h3>KADUNA POLYTECHNIC</h3>
+        <img src="{% static 'img/kadlogo.png' %} " width="100" class="rounded mx-auto d-block mt-5" alt="...">
+        <h6 class="mt-3">This is to Certify that</h6>
+        <h2 class="mt-4"> <u>{{ result.fullname }}</u></h2>
+        <h6 class="mt-1" style="line-height: 35px;">having completed the approved course of study and passed <br> the prescribed Examination, has, by the Authority <br> of the <span class="text-success">ACADEMIC BOARD</span>of the <br> Polytechnic, been awarded <br> <span class="pt-5 text-success">{{ result.programme|upper }}</span> <br> in</h6>
+        <h2 class="mt-0"> <u>{{ result.department }}</u></h2>
+        at <span class="h2"> <u>{{ result.grade }}</u> </span> Level.
+        <p class="mt-3"><span class="h6 text-left"> KPT/ND N0</span> {{result.cert_no }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <p> Date of completion of programme <span class="h2"> <u>{{ result.date|date:"F, Y" }}</u> </span>
+        </p>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 mt-5 mb-5">
+        <div class="float-left">
+            <img src="{% static 'img/kadlogo.png' %} " width="50" class="rounded mx-auto d-block mt-5" alt="...">
+            REGISTRAR
+        </div>
+        <div class="float-right">
+            <img src="{% static 'img/kadlogo.png' %} " width="50" class="rounded mx-auto d-block mt-5" alt="...">
+            RECTOR
+        </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>

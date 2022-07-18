@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Verify Result{% endblock %}
+{% block head %}
+  {% include "partials/auth_head.html" %}
+{% endblock %}
+{% block body %}
+<div class="container-scroller">
+  {% include "partials/login_nav.html" %}
+  <div class="container-fluid page-body-wrapper">
+    {% include "partials/skins.html" %}
+    {% include "partials/sidebar.html" %}
+    <div class="main-panel">
+      <div class="content-wrapper">
+        {% include "partials/messages.html" %}
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                    <div class="card-body">
+                      <h4 class="card-title">Search Result</h4>
+                      <form hx-post="{% url 'auth:verify_result' %}" hx-target="#display">
+                        {% csrf_token %}
+                        <div class="form-row">
+                          <label for="">Certificate Number</label>
+                          <input type="number" name="search" class="form-control" required placeholder="Enter Certificate Number">
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Validate Result</button>
+                      </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <div class="card" style="background-color: rgb(84, 167, 84);">
+                <div class="card-body">
+                  <h4 class="card-title text-white">Result Preview</h4>
+                  <div class="card" id="display">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      {% include "partials/login_footer.html" %}
+    </div>
+  </div>
+</div>
+{% include "partials/auth_script.html" %}
+{% endblock %}
