@@ -7,11 +7,12 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.http import HttpResponse
 
 # My App imports
 from e_verify_auth.models import Accounts
 from e_verify_app.models import ResultInformation
-from e_verify_auth.forms import AccountCreationForm, OrganizationForm, AccountUpdateForm, OrganizationUpdateForm, ResultForm
+from e_verify_auth.forms import AccountCreationForm, OrganizationForm, AccountUpdateForm, OrganizationUpdateForm, ResultForm, EditResultForm
 
 # Create your views here.
 class DashboardView(View):
@@ -185,7 +186,7 @@ class ProfileView(SuccessMessageMixin, View):
             messages.error(request, 'User account not found!')
             return redirect('auth:dashboard')
 
-class ResultView(SuccessMessageMixin, CreateView):
+class UploadResultView(SuccessMessageMixin, CreateView):
     model = ResultInformation
     form_class = ResultForm
     template_name = 'auth/upload_result.html'
@@ -194,12 +195,27 @@ class ResultView(SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse("auth:manage_result")
 
-    # def form_valid(self, form):
-    #     form.instance.set_password(form.instance.password)
-    #     return super().form_valid(form)
+class ManageResultView(View):
+    def get(self, request):
+        return render(request, 'auth/manage_result.html')
 
-class ManageResultView(ManageAdminView):
-    template_name = "auth/manage_result.html"
+class ListResultView(ManageAdminView):
+    template_name = "partials/result_list.html"
 
     def get_queryset(self):
         return ResultInformation.objects.all().order_by('-date')
+
+class ResultEditForm(View):
+    def get(self, request, pk):
+        result = ResultInformation.objects.get(pk=pk)
+        form = EditResultForm(instance=result)
+        return render(request, 'auth/result_form.html', {'form':form, 'result':result})
+    def post(self, request, pk):
+        result = ResultInformation.objects.get(pk=pk)
+        form = EditResultForm(request.POST, instance=result)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Result has been updated!')
+            return HttpResponse(status=204, headers={'Hx-Trigger':'listChanged'})
+        messages.error(request, f'{form.errors.as_text()}')
+        return HttpResponse(status=204, headers={'Hx-Trigger':'listChanged'})

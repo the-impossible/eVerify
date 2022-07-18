@@ -236,3 +236,20 @@ class ResultForm(forms.ModelForm):
         model = ResultInformation
         fields = ('fullname', 'programme', 'department', 'grade', 'cert_no', 'date')
 
+class EditResultForm(ResultForm):
+
+    def clean_cert_no(self):
+        cert_no = self.cleaned_data.get('cert_no')
+
+        check = ResultInformation.objects.filter(cert_no=cert_no)
+        if self.instance:
+            check = check.exclude(pk=self.instance.pk)
+        if check.exists():
+            raise forms.ValidationError('Certificate number Already exist!')
+
+        return cert_no
+
+    class Meta:
+        model = ResultInformation
+        fields = ('fullname', 'programme', 'department', 'grade', 'cert_no', 'date')
+

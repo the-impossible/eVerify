@@ -22,8 +22,10 @@ from e_verify_auth.views import (
     DeleteOrgView,
 
     # RESULT
-    ResultView,
+    UploadResultView,
+    ListResultView,
     ManageResultView,
+    ResultEditForm,
 )
 
 app_name = 'auth'
@@ -44,7 +46,8 @@ urlpatterns = [
     path('manage_org', ManageOrgUserView.as_view(), name='manage_org'),
     path('delete_org/<pk>', DeleteOrgView.as_view(), name='delete_org'),
     # RESULT
-    path('upload_result', ResultView.as_view(), name='upload_result'),
+    path('upload_result', UploadResultView.as_view(), name='upload_result'),
     path('manage_result', ManageResultView.as_view(), name='manage_result'),
-
+    path('list_result', ListResultView.as_view(), name='list_result'),
+    path('result_form/<pk>', ResultEditForm.as_view(), name='result_form'),
 ]

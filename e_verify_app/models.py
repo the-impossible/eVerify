@@ -27,7 +27,7 @@ class ResultInformation(models.Model):
     department = models.CharField(max_length=100, choices=department_select)
     grade = models.CharField(max_length=20, choices=grade_select)
     cert_no = models.CharField(max_length=14, db_index=True, unique=True, blank=True)
-    result_id = models.UUIDField(default=uuid.uuid4(), primary_key=True, unique=True, editable=False)
+    result_id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
     date = models.DateField()
 
     def __str__(self):

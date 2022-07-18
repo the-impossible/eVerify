@@ -1,0 +1,68 @@
+{% if object_list %}
+{% include "partials/messages.html" %}
+<div class="table-responsive">
+    <table class="table table-striped table-sm table-hover" >
+        <thead class="text-center">
+          <tr>
+            <th>#</th>
+            <th>fullname</th>
+            <th>Programme</th>
+            <th>Department</th>
+            <th>Grade</th>
+            <th>Cert No</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="text-center" >
+            {% for result in object_list  %}
+            <tr>
+                <td><b>{{ forloop.counter }}</b></td>
+                <td>
+                    <a href="" class="" style="text-decoration: none;" hx-get="{% url 'auth:result_form' result.result_id %}" hx-target="#resultDialog">{{ result.fullname }} <i class="fa fa-pen"></i></a>
+                </td>
+                <td>{{ result.programme }}</td>
+                <td>{{ result.department }}</td>
+                <td>{{ result.grade }}</td>
+                <td>{{ result.cert_no }}</td>
+                <td>
+                    <a href="" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#delete{{ result.cert_no}}">Delete <i class="fa fa-trash"></i></a>
+                    <div class="modal fade" id="delete{{ result.cert_no}}" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete....are you sure?</h5>
+                                    <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">Select "Delete" below if you want to delete <br> <b> {{ result.fullname }} result</b>.</div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-warning btn-block">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+{% else %}
+<div class="row">
+    <div class="mx-auto mt-5">
+      <p class="lead text-center">No Student Result Information found!</p>
+      <a href="{% url 'auth:upload_result' %}" class="btn btn-outline-success btn-sm mt-3">Upload Result</a>
+    </div>
+</div>
+{% endif %}
+<script>
+    window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 2000);
+</script>
