@@ -236,7 +236,19 @@ class VerifyResult(View):
         result = ResultInformation.objects.filter(cert_no=qs)
 
         if result:
-            return render(request, 'partials/result_content.html', context={'result':result[0]})
+            return render(request, 'partials/result_content.html', context={'result':result[0], 'qs':qs})
         else:
             messages.error(request, 'Result not found! try inputting a valid cert_no')
-        return render(request, 'partials/result_empty.html')
+        return render(request, 'partials/result_empty.html', {'qs':qs})
+
+class SearchResult(View):
+    def post(self, request):
+        qs =  request.POST.get('qs')
+        print('QUERY: ', int(qs))
+        result = ResultInformation.objects.filter(cert_no=qs)
+        print('RESULT: ', result)
+        if result:
+            return render(request, 'auth/verify_result.html', context={'result':result[0], 'qs':qs})
+        else:
+            messages.error(request, 'Result not found! try inputting a valid cert_no')
+        return render(request, 'auth/verify_result.html', {'qs':qs})

@@ -1,16 +1,21 @@
 {% load static %}
+{% include "partials/messages.html" %}
 <div class="card-body">
     <div class="text-center">
         <h3>KADUNA POLYTECHNIC</h3>
         <img src="{% static 'img/kadlogo.png' %} " width="100" class="rounded mx-auto d-block mt-5" alt="...">
         <h6 class="mt-3">This is to Certify that</h6>
-        <h2 class="mt-4"> <u>{{ result.fullname }}</u></h2>
-        <h6 class="mt-1" style="line-height: 35px;">having completed the approved course of study and passed <br> the prescribed Examination, has, by the Authority <br> of the <span class="text-success">ACADEMIC BOARD</span>of the <br> Polytechnic, been awarded <br> <span class="pt-5 text-success">{{ result.programme|upper }}</span> <br> in</h6>
-        <h2 class="mt-0"> <u>{{ result.department }}</u></h2>
-        at <span class="h2"> <u>{{ result.grade }}</u> </span> Level.
-        <p class="mt-3"><span class="h6 text-left"> KPT/ND N0</span> {{result.cert_no }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-        <p> Date of completion of programme <span class="h2"> <u>{{ result.date|date:"F, Y" }}</u> </span>
+        <h2 class="mt-4" style="font-family: 'Old English Text MT';">{{ result.fullname }}</h2>
+        <hr>
+        <h6 class="mt-1" style="line-height: 35px;">having completed the approved course of study and passed <br> the prescribed Examination, has, by the Authority <br> of the <span class="text-success">ACADEMIC BOARD </span>of the <br> Polytechnic, been awarded <br> <span class="pt-5 text-success">{{ result.programme|upper }}</span> <br> in</h6>
+        <h2 class="mt-0" style="font-family: 'Old English Text MT';">{{ result.department }}</h2>
+        <hr>
+        at <span class="h2" style="font-family: 'Old English Text MT';">{{ result.grade }} </span> Level.
+        <hr>
+        <p class="mt-3"><span class="h6 text-left"><b>KPT/ND No.</b></span> {{result.cert_no }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <p> Date of completion of programme <span class="h2" style="font-family: 'Old English Text MT';"> {{ result.date|date:"F, Y." }} </span>
         </p>
+        <hr>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
@@ -27,3 +32,10 @@
         <div class="col-md-3"></div>
     </div>
 </div>
+<script>
+    window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 2000);
+</script>

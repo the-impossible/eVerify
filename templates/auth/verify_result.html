@@ -13,7 +13,6 @@
     {% include "partials/sidebar.html" %}
     <div class="main-panel">
       <div class="content-wrapper">
-        {% include "partials/messages.html" %}
         <div class="row">
             <div class="col-md-4 col-lg-4 col-sm-12 grid-margin">
               <div class="card">
@@ -24,7 +23,7 @@
                         {% csrf_token %}
                         <div class="form-row">
                           <label for="">Certificate Number</label>
-                          <input type="number" name="search" class="form-control" required placeholder="Enter Certificate Number">
+                          <input type="number" name="search" value="{{qs}}" class="form-control" required placeholder="Enter Certificate Number">
                         </div>
                         <button type="submit" class="btn btn-success mt-3">Validate Result</button>
                       </form>
@@ -37,7 +36,11 @@
                 <div class="card-body">
                   <h4 class="card-title text-white">Result Preview</h4>
                   <div class="card" id="display">
-
+                    {% if result %}
+                      {% include "partials/result_content.html" %}
+                      {% else %}
+                      {% include "partials/result_empty.html" %}
+                    {% endif %}
                   </div>
                 </div>
               </div>

@@ -17,7 +17,10 @@
                 <i class="icon-search"></i>
               </span>
             </div>
-            <input type="text" class="form-control" id="navbar-search-input" placeholder="Enter Certificate No." aria-label="search" aria-describedby="search">
+            <form action="{% url 'auth:search_result' %}" method="post">
+              {% csrf_token %}
+              <input type="number" class="form-control" id="navbar-search-input" placeholder="Enter Certificate No." aria-label="search" aria-describedby="search" name="qs">
+            </form>
           </div>
         </li>
       </ul>

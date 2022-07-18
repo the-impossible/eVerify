@@ -30,6 +30,7 @@ from e_verify_auth.views import (
 
     # VERIFY
     VerifyResult,
+    SearchResult,
 )
 
 app_name = 'auth'
@@ -57,4 +58,5 @@ urlpatterns = [
     path('delete_result/<pk>', DeleteResultView.as_view(), name='delete_result'),
     # VERIFY
     path('verify_result', VerifyResult.as_view(), name='verify_result'),
+    path('search_result', SearchResult.as_view(), name='search_result'),
 ]

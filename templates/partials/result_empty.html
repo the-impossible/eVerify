@@ -1,6 +1,14 @@
 {% load static %}
 <div class="card-body">
+    {% include "partials/messages.html" %}
     <div class="text-center">
         Record not found!
     </div>
 </div>
+<script>
+    window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 2000);
+</script>
