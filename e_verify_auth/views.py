@@ -8,6 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # My App imports
 from e_verify_auth.models import Accounts
@@ -15,7 +16,8 @@ from e_verify_app.models import ResultInformation
 from e_verify_auth.forms import AccountCreationForm, OrganizationForm, AccountUpdateForm, OrganizationUpdateForm, ResultForm, EditResultForm
 
 # Create your views here.
-class DashboardView(View):
+class DashboardView(LoginRequiredMixin, View):
+    login_url = 'auth:login'
     def get(self, request):
         context = {
             'time':date.today().strftime("%Y-%m-%d"),
@@ -52,7 +54,8 @@ class LoginView(View):
             messages.error(request, 'All fields are required!!')
             return redirect('auth:login')
 
-class CreateAdminView(SuccessMessageMixin, CreateView):
+class CreateAdminView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    login_url = 'auth:login'
     model = Accounts
     form_class = AccountCreationForm
     template_name = 'auth/create_admin.html'
@@ -66,14 +69,16 @@ class CreateAdminView(SuccessMessageMixin, CreateView):
         form.instance.is_staff = True
         return super().form_valid(form)
 
-class ManageAdminView(ListView):
+class ManageAdminView(LoginRequiredMixin, ListView):
+    login_url = 'auth:login'
     model = Accounts
     template_name = "auth/manage_admin.html"
 
     def get_queryset(self):
         return Accounts.objects.filter(is_staff=True).order_by('-date_joined')
 
-class LogoutView(View):
+class LogoutView(LoginRequiredMixin, View):
+    login_url = 'auth:login'
     def post(self, request):
         logout(request)
         messages.success(request, 'You are successfully logout, to continue login again')
@@ -93,30 +98,35 @@ class RegisterView(SuccessMessageMixin, CreateView):
         form.instance.set_password(form.instance.password)
         return super().form_valid(form)
 
-class CreateOrgView(RegisterView):
+class CreateOrgView(LoginRequiredMixin, RegisterView):
+    login_url = 'auth:login'
     template_name = 'auth/create_org.html'
 
     def get_success_url(self):
         return reverse("auth:manage_org")
 
-class ManageOrgUserView(ManageAdminView):
+class ManageOrgUserView(LoginRequiredMixin, ManageAdminView):
+    login_url = 'auth:login'
     template_name = "auth/manage_org.html"
 
     def get_queryset(self):
         return Accounts.objects.filter(is_staff=False).order_by('-date_joined')
 
-class DeleteUserView(SuccessMessageMixin, DeleteView):
+class DeleteUserView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    login_url = 'auth:login'
     model = Accounts
     success_message = "Account deleted successfully!"
 
     def get_success_url(self):
         return reverse("auth:manage_admin")
 
-class DeleteOrgView(DeleteUserView):
+class DeleteOrgView(LoginRequiredMixin, DeleteUserView):
+    login_url = 'auth:login'
     def get_success_url(self):
         return reverse("auth:manage_org")
 
-class ProfileView(SuccessMessageMixin, View):
+class ProfileView(LoginRequiredMixin, SuccessMessageMixin, View):
+    login_url = 'auth:login'
     def get(self, request, pk):
         try:
             user = Accounts.objects.get(pk=pk)
@@ -189,7 +199,8 @@ class ProfileView(SuccessMessageMixin, View):
             messages.error(request, 'User account not found!')
             return redirect('auth:dashboard')
 
-class UploadResultView(SuccessMessageMixin, CreateView):
+class UploadResultView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    login_url = 'auth:login'
     model = ResultInformation
     form_class = ResultForm
     template_name = 'auth/upload_result.html'
@@ -198,17 +209,20 @@ class UploadResultView(SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse("auth:manage_result")
 
-class ManageResultView(View):
+class ManageResultView(LoginRequiredMixin, View):
+    login_url = 'auth:login'
     def get(self, request):
         return render(request, 'auth/manage_result.html')
 
-class ListResultView(ManageAdminView):
+class ListResultView(LoginRequiredMixin, ManageAdminView):
+    login_url = 'auth"login'
     template_name = "partials/result_list.html"
 
     def get_queryset(self):
         return ResultInformation.objects.all().order_by('-date')
 
-class ResultEditForm(View):
+class ResultEditForm(LoginRequiredMixin, View):
+    login_url = 'auth:login'
     def get(self, request, pk):
         result = ResultInformation.objects.get(pk=pk)
         form = EditResultForm(instance=result)
@@ -223,14 +237,16 @@ class ResultEditForm(View):
         messages.error(request, f'{form.errors.as_text()}')
         return HttpResponse(status=204, headers={'Hx-Trigger':'listChanged'})
 
-class DeleteResultView(SuccessMessageMixin, DeleteView):
+class DeleteResultView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    login_url = 'auth:login'
     model = ResultInformation
     success_message = "Result deleted successfully!"
 
     def get_success_url(self):
         return reverse("auth:manage_result")
 
-class VerifyResult(View):
+class VerifyResult(LoginRequiredMixin, View):
+    login_url = 'auth:login'
     def get(self, request):
         return render(request, 'auth/verify_result.html')
 
@@ -244,12 +260,11 @@ class VerifyResult(View):
             messages.error(request, 'Result not found! try inputting a valid cert_no')
         return render(request, 'partials/result_empty.html', {'qs':qs})
 
-class SearchResult(View):
+class SearchResult(LoginRequiredMixin, View):
+    login_url = 'auth:login'
     def post(self, request):
         qs =  request.POST.get('qs')
-        print('QUERY: ', int(qs))
         result = ResultInformation.objects.filter(cert_no=qs)
-        print('RESULT: ', result)
         if result:
             return render(request, 'auth/verify_result.html', context={'result':result[0], 'qs':qs})
         else:
