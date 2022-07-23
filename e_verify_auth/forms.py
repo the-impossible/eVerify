@@ -218,7 +218,7 @@ class ResultForm(forms.ModelForm):
         }
     ))
 
-    date = forms.CharField(help_text='Enter a valid phone number', widget=forms.DateInput(
+    date = forms.CharField(help_text='Enter date Issued', widget=forms.DateInput(
         attrs={
             'class':'form-control',
             'type':'date'

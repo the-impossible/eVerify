@@ -12,7 +12,8 @@
         <hr>
         at <span class="h2" style="font-family: 'Old English Text MT';">{{ result.grade }} </span> Level.
         <hr>
-        <p class="mt-3"><span class="h6 text-left"><b>KPT/ND No.</b></span> {{result.cert_no }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <p class="mt-3"><span class="h6 text-left"><b>KPT/{% if result.programme|upper == 'HIGHER NATIONAL DIPLOMA' %}
+            HND{% else %}ND{% endif %}No.</b></span> {{result.cert_no }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         <p> Date of completion of programme <span class="h2" style="font-family: 'Old English Text MT';"> {{ result.date|date:"F, Y." }} </span>
         </p>
         <hr>
@@ -20,14 +21,14 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 mt-5 mb-5">
-        <div class="float-left">
-            <img src="{% static 'img/kadlogo.png' %} " width="50" class="rounded mx-auto d-block mt-5" alt="...">
-            REGISTRAR
-        </div>
-        <div class="float-right">
-            <img src="{% static 'img/kadlogo.png' %} " width="50" class="rounded mx-auto d-block mt-5" alt="...">
-            RECTOR
-        </div>
+            <div class="float-left">
+                <img src="{% static 'img/signature1.png' %} " width="50" class="rounded mx-auto d-block mt-5" alt="...">
+                REGISTRAR
+            </div>
+            <div class="float-right">
+                <img src="{% static 'img/signature2.png' %} " width="50" class="rounded mx-auto d-block mt-5" alt="...">
+                RECTOR
+            </div>
         </div>
         <div class="col-md-3"></div>
     </div>
