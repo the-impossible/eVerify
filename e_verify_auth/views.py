@@ -33,7 +33,8 @@ class LoginView(View):
 
     def post(self, request):
         email = request.POST.get('email').strip().lower()
-        password = request.POST.get('password').strip().lower()
+        password = request.POST.get('password').strip()
+
 
         if email and password:
             # Authenticate user
@@ -66,6 +67,7 @@ class CreateAdminView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.set_password(form.instance.password)
+        form.instance.email = form.instance.email.strip().lower()
         form.instance.is_staff = True
         return super().form_valid(form)
 
@@ -96,6 +98,7 @@ class RegisterView(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.set_password(form.instance.password)
+        form.instance.email = form.instance.email.strip().lower()
         return super().form_valid(form)
 
 class CreateOrgView(LoginRequiredMixin, RegisterView):
@@ -215,7 +218,7 @@ class ManageResultView(LoginRequiredMixin, View):
         return render(request, 'auth/manage_result.html')
 
 class ListResultView(ManageAdminView):
-    login_url = 'auth"login'
+    login_url = 'auth"login' 
     template_name = "partials/result_list.html"
 
     def get_queryset(self):
@@ -227,6 +230,7 @@ class ResultEditForm(LoginRequiredMixin, View):
         result = ResultInformation.objects.get(pk=pk)
         form = EditResultForm(instance=result)
         return render(request, 'auth/result_form.html', {'form':form, 'result':result})
+
     def post(self, request, pk):
         result = ResultInformation.objects.get(pk=pk)
         form = EditResultForm(request.POST, instance=result)

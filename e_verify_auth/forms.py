@@ -33,7 +33,7 @@ class AccountCreationForm(forms.ModelForm):
     phone = forms.CharField(required=True, help_text='Enter a valid phone number', widget=forms.TextInput(
         attrs={
             'class':'form-control',
-            'type':'number'
+            'type':'text'
         }
     ))
 
@@ -68,7 +68,7 @@ class AccountCreationForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if Accounts.objects.filter(email=email).exists():
+        if Accounts.objects.filter(email=email.lower().strip()).exists():
             raise forms.ValidationError('Email Already taken!')
 
         return email
@@ -94,7 +94,7 @@ class OrganizationForm(forms.ModelForm):
     phone = forms.CharField(required=True, help_text='Enter a valid phone number', widget=forms.TextInput(
         attrs={
             'class':'form-control',
-            'type':'number'
+            'type':'text'
         }
     ))
 
@@ -114,6 +114,12 @@ class OrganizationForm(forms.ModelForm):
         }
     ))
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Accounts.objects.filter(email=email.lower().strip()).exists():
+            raise forms.ValidationError('Email Already taken!')
+
+        return email
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
@@ -122,12 +128,6 @@ class OrganizationForm(forms.ModelForm):
 
         return password
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if Accounts.objects.filter(email=email).exists():
-            raise forms.ValidationError('Email Already taken!')
-
-        return email
 
     class Meta:
         model = Accounts

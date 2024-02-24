@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'e_verify_auth',
     'e_verify_app',
     'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [

@@ -38,7 +38,7 @@
                     <tbody class="text-center">
                       {% for user in object_list  %}
                       <tr>
-                        <td><b>{{ forloop.counter }}</b></td>
+                        <td><b>{{ forloop.counter }}</b></td> 
                         <td class="py-1">
                           <a href="{% url 'auth:profile' user.pk %}">
                             <img src="{% if user.picture.url != '' %} {{ user.picture.url }} {% else %} {% static 'img/user.png' %} {% endif %}" alt="image"/>

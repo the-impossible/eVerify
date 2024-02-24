@@ -79,15 +79,9 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
-                <div class="card card-light-blue">
-                  <div class="card-body">
-                    <p class="mb-4">Total Searched Record</p>
-                    <p class="fs-30 mb-2">34040</p>
-                    <p>(verified)</p>
-                  </div>
-                </div>
-              </div>
+
+              {% if request.user.is_staff %}
+
               <div class="col-md-6 stretch-card transparent">
                 <div class="card card-light-danger">
                   <div class="card-body">
@@ -97,6 +91,8 @@
                   </div>
                 </div>
               </div>
+              {% endif %}
+
             </div>
           </div>
         </div>
